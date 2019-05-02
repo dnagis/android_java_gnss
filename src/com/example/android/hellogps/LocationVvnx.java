@@ -12,7 +12,7 @@ import android.util.Log;
 public class LocationVvnx implements LocationListener {
 	
 	private Context activityContext;
-	private LocationManager mLocationManager;
+	public LocationManager mLocationManager;
 	    
 	private static final int TEN_SECONDS = 10000;
     private static final int TEN_METERS = 10;
@@ -29,45 +29,38 @@ public class LocationVvnx implements LocationListener {
 		Location gpsLocation = null;
 	
 		mLocationManager = (LocationManager)activityContext.getSystemService(Context.LOCATION_SERVICE);
-		//Log.d("vvnx", "controle positif");
-		//if (mLocationManager == null) Log.d("vvnx", "lm est null dans setup");		
-		
+		//if (mLocationManager == null) Log.d("vvnx", "lm est null dans setup");			
 	
-		gpsLocation = requestUpdatesFromProvider(LocationManager.GPS_PROVIDER, R.string.not_support_gps);
-		// Update the UI immediately if a location is obtained.
-		//if (gpsLocation != null) logUILocation(gpsLocation);
-        
+		requestUpdatesFromProvider();        
     }
     
-    private Location requestUpdatesFromProvider(final String provider, final int errorResId) {
-        Location location = null;
+    public void requestUpdatesFromProvider() {
+        //Location location = null;
         
-		//if (mLocationManager == null) Log.d("vvnx", "lm est null dans requestUpdatesFromProvider");	
-        //if (provider == null) Log.d("vvnx", "provider est null");
+		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TEN_SECONDS, TEN_METERS, this);
+		//location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         
-		mLocationManager.requestLocationUpdates(provider, TEN_SECONDS, TEN_METERS, this);
-		location = mLocationManager.getLastKnownLocation(provider);
-        
-        return location;
+        //return location;
     }
     
     
-    	//implements LocationListener     
+    //implements LocationListener     
+    @Override	
     public void onLocationChanged(Location location) {
-            Log.d("vvnx", location.getLatitude() + ",  " + location.getLongitude());
-        }
+        Log.d("vvnx", location.getLatitude() + ",  " + location.getLongitude());
+    }
         
-            @Override
-        public void onProviderDisabled(String provider) {
-        }
+	@Override
+	public void onProviderDisabled(String provider) {
+	}
 
-        @Override
-        public void onProviderEnabled(String provider) {
-        }
+	@Override
+	public void onProviderEnabled(String provider) {
+	}
 
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-        }
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+	}
     
 
 }

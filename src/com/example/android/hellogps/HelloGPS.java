@@ -56,7 +56,7 @@ public class HelloGPS extends Activity  {
     @Override
     protected void onResume() {
         super.onResume();
-        //setup();
+        mLocationVvnx.requestUpdatesFromProvider();
     }
     
     // Stop receiving location updates whenever the Activity becomes invisible.
