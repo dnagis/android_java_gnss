@@ -32,16 +32,14 @@ import android.util.Log;
 
 
 
-public class HelloGPS extends Activity implements LocationListener  {
+public class HelloGPS extends Activity  {
 	
 	private TextView mLatLng;
-    private LocationManager mLocationManager;
+
     
     private LocationVvnx mLocationVvnx;
     
-    private static final int TEN_SECONDS = 10000;
-    private static final int TEN_METERS = 10;
-    private static final int TWO_MINUTES = 1000 * 60 * 2;
+
 
 
     @Override
@@ -58,89 +56,21 @@ public class HelloGPS extends Activity implements LocationListener  {
     @Override
     protected void onResume() {
         super.onResume();
-        setup();
+        //setup();
     }
     
     // Stop receiving location updates whenever the Activity becomes invisible.
     @Override
     protected void onStop() {
         super.onStop();
-        mLocationManager.removeUpdates(this);
+        //mLocationManager.removeUpdates(this);
     }
     
 
-    private void setup() {
-        Location gpsLocation = null;
-        //mLocationManager.removeUpdates(listener);
-        mLatLng.setText(R.string.unknown);
-       
-		
-		
-		
-		mLocationManager = (LocationManager)getSystemService(this.LOCATION_SERVICE);
-        //Log.d("vvnx", "controle positif");
-        //if (mLocationManager == null) Log.d("vvnx", "lm est null dans setup");		
-		
 
-		gpsLocation = requestUpdatesFromProvider(LocationManager.GPS_PROVIDER, R.string.not_support_gps);
-		// Update the UI immediately if a location is obtained.
-		if (gpsLocation != null) updateUILocation(gpsLocation);
-        
-    }
-    
-    /*private final LocationListener listener = new LocationListener() {
 
-        @Override
-        public void onLocationChanged(Location location) {
-            updateUILocation(location);
-        }
 
-        @Override
-        public void onProviderDisabled(String provider) {
-        }
 
-        @Override
-        public void onProviderEnabled(String provider) {
-        }
 
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-        }
-    }; */  
-     
-    private Location requestUpdatesFromProvider(final String provider, final int errorResId) {
-        Location location = null;
-        
-		//if (mLocationManager == null) Log.d("vvnx", "lm est null dans requestUpdatesFromProvider");	
-        //if (provider == null) Log.d("vvnx", "provider est null");
-        
-		mLocationManager.requestLocationUpdates(provider, TEN_SECONDS, TEN_METERS, this);
-		location = mLocationManager.getLastKnownLocation(provider);
-        
-        return location;
-    }
-
-	//implements LocationListener     
-    public void onLocationChanged(Location location) {
-            updateUILocation(location);
-        }
-        
-            @Override
-        public void onProviderDisabled(String provider) {
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-        }
-    
-
-    
-    private void updateUILocation(Location location) {
-        mLatLng.setText(location.getLatitude() + ",  " + location.getLongitude());
-    }
 }
 
