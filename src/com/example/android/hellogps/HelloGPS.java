@@ -35,8 +35,9 @@ import android.util.Log;
 public class HelloGPS extends Activity implements LocationListener  {
 	
 	private TextView mLatLng;
-    private Button mFineProviderButton;
     private LocationManager mLocationManager;
+    
+    private LocationVvnx mLocationVvnx;
     
     private static final int TEN_SECONDS = 10000;
     private static final int TEN_METERS = 10;
@@ -47,18 +48,14 @@ public class HelloGPS extends Activity implements LocationListener  {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Set the layout for this activity.  You can find it
-        // in res/layout/hello_activity.xml
         View view = getLayoutInflater().inflate(R.layout.hello_activity, null);
         setContentView(view);
         
-        mLatLng = (TextView) findViewById(R.id.latlng);
-
-
-        
+        mLatLng = (TextView) findViewById(R.id.latlng); 
+        mLocationVvnx = new LocationVvnx(this);      
     }
     
-        @Override
+    @Override
     protected void onResume() {
         super.onResume();
         setup();
