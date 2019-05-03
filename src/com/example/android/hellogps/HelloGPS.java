@@ -34,7 +34,7 @@ public class HelloGPS extends Activity  {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+		Log.d("vvnx", "onCreate");
         View view = getLayoutInflater().inflate(R.layout.hello_activity, null);
         setContentView(view);
         
@@ -45,22 +45,31 @@ public class HelloGPS extends Activity  {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d("vvnx", "onResume");
         mLocationVvnx.requestUpdatesFromProvider();
         Location lastLoc = mLocationVvnx.getLastLoc();
-        updateLocText(lastLoc);
+        if (lastLoc != null)updateLocText(lastLoc);
     }
     
     public static void updateLocText(Location location) {
 		Date datefix = new Date(location.getTime());
 		SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss", Locale.FRANCE);
-		mLatLng.setText(format.format(datefix) + "\n" + location.getLatitude() + ", " + location.getLongitude() + "\n acc:" + 	location.getAccuracy() + "\n alt:" + location.getAltitude());
+		mLatLng.setText(format.format(datefix) + "\n" + location.getLatitude() + ", " + location.getLongitude() + "\n acc:" + location.getAccuracy() + "\n alt:" + location.getAltitude());
 	}
     
     // utile???
     @Override
     protected void onStop() {
         super.onStop();
+        Log.d("vvnx", "onStop");
         //mLocationManager.removeUpdates(this);
+    }
+    
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("vvnx", "onPause");
     }
     
 
