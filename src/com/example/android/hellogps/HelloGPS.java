@@ -14,10 +14,13 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.content.Context;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
+
 
 import android.util.Log;
 
@@ -48,7 +51,9 @@ public class HelloGPS extends Activity  {
     }
     
     public static void updateLocText(Location location) {
-		mLatLng.setText(location.getLatitude() + ",  " + location.getLongitude() + ",  " + 	location.getAccuracy() + ",  " + 	location.getAltitude() + ",  " + location.getTime());
+		Date datefix = new Date(location.getTime());
+		SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss", Locale.FRANCE);
+		mLatLng.setText(format.format(datefix) + "\n" + location.getLatitude() + ", " + location.getLongitude() + "\n acc:" + 	location.getAccuracy() + "\n alt:" + location.getAltitude());
 	}
     
     // utile???

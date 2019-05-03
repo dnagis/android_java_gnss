@@ -15,6 +15,8 @@ public class LocationVvnx implements LocationListener {
 	
 	private Context activityContext;
 	public LocationManager mLocationManager;
+	private BaseDeDonnees maBDD;
+
 	    
 	private static final int MIN_TIME = 1000; //long: minimum time interval between location updates, in milliseconds
     private static final int MIN_DIST = 1; //float: minimum distance between location updates, in meters
@@ -23,6 +25,7 @@ public class LocationVvnx implements LocationListener {
 	public LocationVvnx(Context mContext){
 		activityContext = mContext;
 		Log.d("vvnx", "constructeur classe location_vvnx");
+		maBDD = new BaseDeDonnees(mContext);
 		setup();
 	}	 
 	 
@@ -50,6 +53,7 @@ public class LocationVvnx implements LocationListener {
     @Override	
     public void onLocationChanged(Location location) {
 		HelloGPS.updateLocText(location);
+		maBDD.logFix(location.getTime());
         Log.d("vvnx", location.getLatitude() + ",  " + location.getLongitude() + ",  " + 	location.getAccuracy() + ",  " + 	location.getAltitude() + ",  " + location.getTime());
     }
         
