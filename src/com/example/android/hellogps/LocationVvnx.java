@@ -53,8 +53,8 @@ public class LocationVvnx implements LocationListener {
     @Override	
     public void onLocationChanged(Location location) {
 		HelloGPS.updateLocText(location);
-		maBDD.logFix(location.getTime());
-        Log.d("vvnx", location.getLatitude() + ",  " + location.getLongitude() + ",  " + 	location.getAccuracy() + ",  " + 	location.getAltitude() + ",  " + location.getTime());
+		maBDD.logFix(location.getTime(), location.getLatitude(), location.getLongitude(), location.getAccuracy(), location.getAltitude());
+        Log.d("vvnx", location.getLatitude() + ",  " + location.getLongitude() + ",  " + 	location.getAccuracy() + ",  " + location.getAltitude() + ",  " + location.getTime());
     }
         
 	@Override
