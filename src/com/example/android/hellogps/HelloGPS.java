@@ -1,6 +1,6 @@
 /*
  * 
- * 
+ * pm grant com.example.android.hellogps android.permission.ACCESS_FINE_LOCATION
  * 
  * engine gps en java, garder simple pour utilisation ultérieure.
  */
