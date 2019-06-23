@@ -18,8 +18,8 @@ public class LocationVvnx implements LocationListener {
 	private BaseDeDonnees maBDD;
 
 	    
-	private static final int MIN_TIME = 1000; //long: minimum time interval between location updates, in milliseconds
-    private static final int MIN_DIST = 1; //float: minimum distance between location updates, in meters
+	private static final int MIN_TIME = 6 * 60 * 1000; //long: minimum time interval between location updates, in milliseconds
+    private static final int MIN_DIST = 0; //float: minimum distance between location updates, in meters
 	
 	//constructeur, récup context de l'activity qui seule peut appeler getSystemService
 	public LocationVvnx(Context mContext){

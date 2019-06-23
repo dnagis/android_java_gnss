@@ -2,6 +2,15 @@
  * 
  * pm grant com.example.android.hellogps android.permission.ACCESS_FINE_LOCATION
  * 
+ * //réglages LocationManagerService.java
+ * 
+ * settings put global location_background_throttle_package_whitelist com.example.android.hellogps
+ * settings put global location_background_throttle_interval_ms 700000
+ * 
+ * //LocationManagerService.java se pose beaucoup la question de savoir si isImportanceForeground ??
+ * am package-importance com.example.android.hellogps
+ * 
+ * 
  * engine gps en java, garder simple pour utilisation ultérieure.
  */
 
