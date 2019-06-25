@@ -5,7 +5,11 @@
  * //réglages LocationManagerService.java
  * 
  * settings put global location_background_throttle_package_whitelist com.example.android.hellogps
- * settings put global location_background_throttle_interval_ms 700000
+ * settings put global location_background_throttle_interval_ms 360000
+ * 
+ * settings list global doit donner:
+ * location_background_throttle_interval_ms=360000
+ * location_background_throttle_package_whitelist=com.example.android.hellogps
  * 
  * //LocationManagerService.java se pose beaucoup la question de savoir si isImportanceForeground ??
  * am package-importance com.example.android.hellogps
@@ -41,8 +45,13 @@ public class HelloGPS extends Activity implements LocationListener {
 	private static TextView mLatLng;    
 	public LocationManager mLocationManager;
 	
-	private static final int MIN_TIME = 1000; //long: minimum time interval between location updates, in milliseconds
+	 //long: minimum time interval between location updates, in milliseconds
+	private static final int MIN_TIME_HIGH = 1000;
+	private static final int MIN_TIME_LOW = 120 * 1000; //301 * 1000 -> un peu plus que 5 min car LoctionManagerService.java: max interval a loc request can have and still be considered "high power" HIGH_POWER_INTERVAL_MS = 5 * 60 * 1000;
+	
+	
     private static final int MIN_DIST = 0; //float: minimum distance between location updates, in meters
+    private static final int MIN_DIST_BACKGRND = 100; //au on_stop, on_pause, je veux des updates que quand je bouge
     
     private BaseDeDonnees maBDD;
 
@@ -59,7 +68,7 @@ public class HelloGPS extends Activity implements LocationListener {
   
         
         mLocationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DIST, this);
+		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_HIGH, MIN_DIST, this);
 		
 		Location lastKnownLocationGPS = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		
@@ -71,7 +80,7 @@ public class HelloGPS extends Activity implements LocationListener {
     protected void onResume() {
         super.onResume();
         Log.d("vvnx", "onResume");
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DIST, this);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_HIGH, MIN_DIST, this);
     }
     
 
@@ -81,7 +90,8 @@ public class HelloGPS extends Activity implements LocationListener {
     protected void onStop() {
         super.onStop();
         Log.d("vvnx", "onStop");
-        mLocationManager.removeUpdates(this);
+        //mLocationManager.removeUpdates(this);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_LOW, MIN_DIST_BACKGRND, this);
     }
     
 
@@ -89,7 +99,8 @@ public class HelloGPS extends Activity implements LocationListener {
     protected void onPause() {
         super.onPause();
         Log.d("vvnx", "onPause");
-        mLocationManager.removeUpdates(this);
+        //mLocationManager.removeUpdates(this);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_LOW, MIN_DIST_BACKGRND, this);
     }
     
     public static void updateLocText(Location location) {
