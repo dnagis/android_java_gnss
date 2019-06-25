@@ -29,16 +29,22 @@ import java.util.Locale;
 
 
 import android.location.Location;
-
+import android.location.LocationListener;
+import android.location.LocationManager;
 
 import android.util.Log;
 
 
 
-public class HelloGPS extends Activity  {
+public class HelloGPS extends Activity implements LocationListener {
 	
 	private static TextView mLatLng;    
-    private LocationVvnx mLocationVvnx;
+	public LocationManager mLocationManager;
+	
+	private static final int MIN_TIME = 1000; //long: minimum time interval between location updates, in milliseconds
+    private static final int MIN_DIST = 0; //float: minimum distance between location updates, in meters
+    
+    private BaseDeDonnees maBDD;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,30 +54,34 @@ public class HelloGPS extends Activity  {
         setContentView(view);
         
         mLatLng = (TextView) findViewById(R.id.latlng); 
-        mLocationVvnx = new LocationVvnx(this);      
+        
+        maBDD = new BaseDeDonnees(this);
+  
+        
+        mLocationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DIST, this);
+		
+		Location lastKnownLocationGPS = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		
+		if (lastKnownLocationGPS != null)updateLocText(lastKnownLocationGPS);
+          
     }
     
     @Override
     protected void onResume() {
         super.onResume();
         Log.d("vvnx", "onResume");
-        mLocationVvnx.requestUpdatesFromProvider();
-        Location lastLoc = mLocationVvnx.getLastLoc();
-        if (lastLoc != null)updateLocText(lastLoc);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DIST, this);
     }
     
-    public static void updateLocText(Location location) {
-		Date datefix = new Date(location.getTime());
-		SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss", Locale.FRANCE);
-		mLatLng.setText(format.format(datefix) + "\n" + location.getLatitude() + ", " + location.getLongitude() + "\n acc:" + location.getAccuracy() + "\n alt:" + location.getAltitude());
-	}
+
     
     // utile???
     @Override
     protected void onStop() {
         super.onStop();
         Log.d("vvnx", "onStop");
-        //mLocationManager.removeUpdates(this);
+        mLocationManager.removeUpdates(this);
     }
     
 
@@ -79,7 +89,34 @@ public class HelloGPS extends Activity  {
     protected void onPause() {
         super.onPause();
         Log.d("vvnx", "onPause");
+        mLocationManager.removeUpdates(this);
     }
+    
+    public static void updateLocText(Location location) {
+		Date datefix = new Date(location.getTime());
+		SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss", Locale.FRANCE);
+		mLatLng.setText(format.format(datefix) + "\n" + location.getLatitude() + ", " + location.getLongitude() + "\n acc:" + location.getAccuracy() + "\n alt:" + location.getAltitude());
+	}    
+    
+    //implements LocationListener --> il faut les 4 méthodes     
+    @Override	
+    public void onLocationChanged(Location location) {
+		updateLocText(location);
+		maBDD.logFix(location.getTime()/1000, location.getLatitude(), location.getLongitude(), location.getAccuracy(), location.getAltitude());
+        Log.d("vvnx", location.getLatitude() + ",  " + location.getLongitude() + ",  " + 	location.getAccuracy() + ",  " + location.getAltitude() + ",  " + location.getTime());
+    }
+        
+	@Override
+	public void onProviderDisabled(String provider) {
+	}
+
+	@Override
+	public void onProviderEnabled(String provider) {
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+	}
     
 
 
