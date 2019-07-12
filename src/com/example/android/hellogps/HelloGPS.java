@@ -47,11 +47,11 @@ public class HelloGPS extends Activity implements LocationListener {
 	
 	 //long: minimum time interval between location updates, in milliseconds
 	private static final int MIN_TIME_HIGH = 1000;
-	private static final int MIN_TIME_LOW = 120 * 1000; //301 * 1000 -> un peu plus que 5 min car LoctionManagerService.java: max interval a loc request can have and still be considered "high power" HIGH_POWER_INTERVAL_MS = 5 * 60 * 1000;
+	private static final int MIN_TIME_LOW = 10 * 1000; //301 * 1000 -> un peu plus que 5 min car LoctionManagerService.java: max interval a loc request can have and still be considered "high power" HIGH_POWER_INTERVAL_MS = 5 * 60 * 1000;
 	
 	
     private static final int MIN_DIST = 0; //float: minimum distance between location updates, in meters
-    private static final int MIN_DIST_BACKGRND = 100; //au on_stop, on_pause, je veux des updates que quand je bouge
+    private static final int MIN_DIST_BACKGRND = 0; //au on_stop, on_pause, je veux des updates que quand je bouge
     
     private BaseDeDonnees maBDD;
 
