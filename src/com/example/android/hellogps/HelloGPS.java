@@ -68,8 +68,9 @@ public class HelloGPS extends Activity implements LocationListener {
   
         
         mLocationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        
 		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_HIGH, MIN_DIST, this);
-		
+		mLocationManager.removeUpdates(this);
 		Location lastKnownLocationGPS = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		
 		if (lastKnownLocationGPS != null)updateLocText(lastKnownLocationGPS);
@@ -80,6 +81,7 @@ public class HelloGPS extends Activity implements LocationListener {
     protected void onResume() {
         super.onResume();
         Log.d("vvnx", "onResume");
+        mLocationManager.removeUpdates(this);
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_HIGH, MIN_DIST, this);
     }
     
@@ -90,7 +92,7 @@ public class HelloGPS extends Activity implements LocationListener {
     protected void onStop() {
         super.onStop();
         Log.d("vvnx", "onStop");
-        //mLocationManager.removeUpdates(this);
+        mLocationManager.removeUpdates(this);
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_LOW, MIN_DIST_BACKGRND, this);
     }
     
@@ -99,7 +101,7 @@ public class HelloGPS extends Activity implements LocationListener {
     protected void onPause() {
         super.onPause();
         Log.d("vvnx", "onPause");
-        //mLocationManager.removeUpdates(this);
+        mLocationManager.removeUpdates(this);
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_LOW, MIN_DIST_BACKGRND, this);
     }
     
