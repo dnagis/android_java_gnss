@@ -28,6 +28,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     
     <application android:label="HelloGPS!">
+		<service android:name=".ForegroundService" />
+		
+		
+		
         <activity android:name="HelloGPS">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

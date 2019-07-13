@@ -13,6 +13,8 @@
  * 
  * //LocationManagerService.java se pose beaucoup la question de savoir si isImportanceForeground ??
  * am package-importance com.example.android.hellogps
+ * 1307 pour importance essai dajouter un foregroundservice: https://androidmonks.com/foreground-service-in-android/
+ * 
  * 
  * 
  * engine gps en java, garder simple pour utilisation ultérieure.
@@ -27,6 +29,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.content.Context;
+import android.content.Intent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -36,6 +39,8 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 
+
+
 import android.util.Log;
 
 
@@ -44,6 +49,7 @@ public class HelloGPS extends Activity implements LocationListener {
 	
 	private static TextView mLatLng;    
 	public LocationManager mLocationManager;
+
 	
 	 //long: minimum time interval between location updates, in milliseconds
 	private static final int MIN_TIME_HIGH = 1000;
@@ -68,12 +74,17 @@ public class HelloGPS extends Activity implements LocationListener {
   
         
         mLocationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+
         
 		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_HIGH, MIN_DIST, this);
 		mLocationManager.removeUpdates(this);
 		Location lastKnownLocationGPS = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		
 		if (lastKnownLocationGPS != null)updateLocText(lastKnownLocationGPS);
+		
+		//foreground service pour importance (am package-importance com.example.android.hellogps) à 125
+		startForegroundService(new Intent(this, ForegroundService.class));
+		
           
     }
     
@@ -115,6 +126,7 @@ public class HelloGPS extends Activity implements LocationListener {
     @Override	
     public void onLocationChanged(Location location) {
 		updateLocText(location);
+
 		maBDD.logFix(location.getTime()/1000, location.getLatitude(), location.getLongitude(), location.getAccuracy(), location.getAltitude());
         Log.d("vvnx", location.getLatitude() + ",  " + location.getLongitude() + ",  " + 	location.getAccuracy() + ",  " + location.getAltitude() + ",  " + location.getTime());
     }
