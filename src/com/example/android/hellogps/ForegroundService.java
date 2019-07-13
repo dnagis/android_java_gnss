@@ -26,12 +26,12 @@ public class ForegroundService extends Service {
     
     @Override
     public void onCreate() {
-		Log.d("vvnx", "ForegroundService onCreate");
+		//Log.d("vvnx", "ForegroundService onCreate");
     }
     
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-		Log.d("vvnx", "ForegroundService onStartCommand");
+		//Log.d("vvnx", "ForegroundService onStartCommand");
 		
 		//https://developer.android.com/training/notify-user/channels
         int importance = NotificationManager.IMPORTANCE_DEFAULT;
@@ -45,8 +45,8 @@ public class ForegroundService extends Service {
         mNotification = new Notification.Builder(this, CHANNEL_ID)  //  The builder requires the context
                 .setSmallIcon(R.drawable.icon)  // the status icon
                 .setTicker("NotifText")  // the status text
-                .setContentTitle("LeTextTitle")  // the label of the entry
-                .setContentText("Example")  // the contents of the entry
+                .setContentTitle("com.example.android.hellogps")  // the label of the entry
+                .setContentText("Mec ton appli est en foreground service!")  // the contents of the entry
                 .build();
 		
 		
