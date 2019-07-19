@@ -30,6 +30,13 @@
     <application android:label="HelloGPS!">
 		<service android:name=".ForegroundService" />
 		
+        <service
+            android:name=".FenceService"
+            android:label="@string/fence_service"
+            android:process="com.example.android.hellogps">
+        </service>		
+		
+		
 		
 		
         <activity android:name="HelloGPS">
@@ -38,5 +45,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        
+
+        
     </application>
 </manifest>

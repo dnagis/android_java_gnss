@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.content.Context;
 import android.content.Intent;
+import android.app.PendingIntent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -38,6 +39,13 @@ import java.util.Locale;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+
+
+
+
+
+
+
 
 
 
@@ -60,6 +68,8 @@ public class HelloGPS extends Activity implements LocationListener {
     private static final int MIN_DIST_BACKGRND = 0; //au on_stop, on_pause, je veux des updates que quand je bouge
     
     private BaseDeDonnees maBDD;
+    
+    
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,16 +84,28 @@ public class HelloGPS extends Activity implements LocationListener {
   
         
         mLocationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-
         
+        
+        
+        
+        
+
+        mLocationManager.removeUpdates(this); //pour ne pas en avoir plusieurs!
 		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_HIGH, MIN_DIST, this);
-		mLocationManager.removeUpdates(this);
+		
+		//geofence via mLocationManager.addProximityAlert
+		Intent mIntent = new Intent(this, FenceService.class);
+		PendingIntent pi = PendingIntent.getService(this, 0, mIntent, 0);		
+		mLocationManager.addProximityAlert(43.930066, 3.713159, 50, -1, pi);
+		
 		Location lastKnownLocationGPS = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		
 		if (lastKnownLocationGPS != null)updateLocText(lastKnownLocationGPS);
 		
 		//foreground service pour importance (am package-importance com.example.android.hellogps) à 125
 		startForegroundService(new Intent(this, ForegroundService.class));
+		
+
 		
           
     }
@@ -143,8 +165,6 @@ public class HelloGPS extends Activity implements LocationListener {
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 	}
     
-
-
 
 
 

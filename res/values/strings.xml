@@ -20,5 +20,6 @@
     <string name="latlng">latlng</string>
     <string name="unknown">--Unknown--</string>
     <string name="not_support_gps">GPS provider not supported</string>
+    <string name="fence_service">fence service</string>
 
 </resources>
