@@ -69,7 +69,7 @@ public class HelloGPS extends Activity implements LocationListener {
     
     private BaseDeDonnees maBDD;
     
-    
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,7 +96,7 @@ public class HelloGPS extends Activity implements LocationListener {
 		//geofence via mLocationManager.addProximityAlert
 		Intent mIntent = new Intent(this, FenceService.class);
 		PendingIntent pi = PendingIntent.getService(this, 0, mIntent, 0);		
-		mLocationManager.addProximityAlert(43.930066, 3.713159, 50, -1, pi);
+		mLocationManager.addProximityAlert(43.93560,3.71064, 50, -1, pi); //déclenche onCreate() dans FenceService
 		
 		Location lastKnownLocationGPS = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		
